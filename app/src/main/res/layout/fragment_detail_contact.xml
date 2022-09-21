@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="@dimen/app_margin"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp">
+
+            <ImageView
+                android:id="@+id/detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/contact" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/detail_name"
+            style="@style/StyleTextViewDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp"
+            tools:text = "Дата рождения 12.02"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="mobile1"
+        android:textSize="@dimen/small_text_view" />
+
+    <TextView
+        android:id="@+id/detail_number"
+        style="@style/StyleTextViewDetail"
+        android:drawablePadding="@dimen/detail_margin_and_padding"
+        app:drawableStartCompat="@drawable/ic_baseline_call_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="mobile2"
+        android:textSize="@dimen/small_text_view" />
+
+    <TextView
+        android:id="@+id/detail_number2"
+        style="@style/StyleTextViewDetail"
+        android:drawablePadding="@dimen/detail_margin_and_padding"
+        app:drawableStartCompat="@drawable/ic_baseline_call_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="email1"
+        android:textSize="@dimen/small_text_view" />
+
+    <TextView
+        android:id="@+id/detail_email"
+        style="@style/StyleTextViewDetail"
+        android:drawablePadding="@dimen/detail_margin_and_padding"
+        app:drawableStartCompat="@drawable/ic_baseline_alternate_email_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="email2"
+        android:textSize="@dimen/small_text_view" />
+
+    <TextView
+        android:id="@+id/detail_email2"
+        style="@style/StyleTextViewDetail"
+        android:drawablePadding="@dimen/detail_margin_and_padding"
+        app:drawableStartCompat="@drawable/ic_baseline_alternate_email_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="description"
+        android:textSize="@dimen/small_text_view" />
+
+    <TextView
+        android:id="@+id/detail_description"
+        style="@style/StyleTextViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/detail_margin_and_padding"
+        app:drawableStartCompat="@drawable/ic_baseline_description_24" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchBirthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="OFF"
+        android:textOn="ON"
+        android:text="Switch" />
+
+</LinearLayout>
