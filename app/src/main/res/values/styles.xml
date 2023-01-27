@@ -20,4 +20,8 @@
     <style name="listImageContact" >
         <item name="android:background">@drawable/circle_image</item> type=""
     </style>
+
+    <style name="datePickerFragment" parent="android:Theme.Material.Light.Dialog" >
+        <item name="android:colorAccent">@color/dark_grey</item>
+    </style>
 </resources>

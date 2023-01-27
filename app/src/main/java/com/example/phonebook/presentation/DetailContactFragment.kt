@@ -1,65 +1,93 @@
 package com.example.phonebook.presentation
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.example.phonebook.ProvideService
-import com.example.phonebook.data.Contact
-import com.example.phonebook.data.ContactService
+import android.widget.CompoundButton
+import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.navigation.fragment.navArgs
+import com.example.phonebook.R
+import com.example.phonebook.data.NotificationSwitcher
+import com.example.phonebook.data.repository.ContactsRepository
 import com.example.phonebook.databinding.FragmentDetailContactBinding
-import com.example.phonebook.notification.AlarmBirthdayReceiver
-import java.lang.ref.WeakReference
-import java.util.*
+import com.example.phonebook.domain.useCase.broadcast.IsAlarmSetUseCase
+import com.example.phonebook.domain.useCase.broadcast.OffReminderUseCase
+import com.example.phonebook.domain.useCase.broadcast.OnReminderUseCase
+import com.example.phonebook.domain.useCase.contactDetail.DetailsContactUseCase
+import com.example.phonebook.utils.MonthFormatter
 
 
+class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(), CompoundButton.OnCheckedChangeListener {
 
-class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),GetContactById {
+    private var dateTv: TextView? = null
 
-    private var contactService:ProvideService? = null
-     var alarmManager:AlarmManager? = null
-    private lateinit var pendingIntent: PendingIntent
+    private val repository  by lazy {
+        ContactsRepository(NotificationSwitcher(requireContext()))
+    }
+  private val  contactDetailsViewModel by lazy {
+      ContactDetailsViewModel(DetailsContactUseCase(repository), OnReminderUseCase(repository), OffReminderUseCase(repository),
+          IsAlarmSetUseCase(repository)
+      )
+  }
+
+    private val args: DetailContactFragmentArgs by navArgs()
+
+    private var switchAlarm: SwitchCompat? = null
 
 
     override fun getViewBinding(): FragmentDetailContactBinding = FragmentDetailContactBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         (context as? ProvideService)?.getService()?.getDetailContact(0, WeakReference(this))
-
-        Log.d("CONTACT","DetailContactFragment onViewCreated DetailContactFragment ")
-        Log.d("CONTACT",contactService.toString() + " DetailContactFragment")
-
+         dateTv = binding.tvDateBirthday
+        switchAlarm = binding.switchBirthday
+        switchAlarm?.setOnCheckedChangeListener(this)
+         val selectDate = binding.tvSelectDate
+        selectDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+        observeViewModel()
     }
 
-    override fun getContact(contact: Contact) {
-        requireView().post {
-            with(binding){
-                detailName.text = contact.name
-                detailNumber.text = contact.number
+    private fun showDatePickerDialog(){
+        val datePicker = DatePickerFragment{ day,month,year -> onDateSelected(day, month, year) }
+        datePicker.show(childFragmentManager,"datePicker")
+    }
+
+    private fun onDateSelected(day: Int, month: Int, year: Int){
+        val stringMonth = MonthFormatter().convertNumberMountToInt(month,requireContext())
+        val dateBirthday =  (context?.getString(R.string.date_of_birth,"$day $stringMonth $year" ))
+        dateTv?.text = dateBirthday
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        if (isChecked){
+            args.contactId.let {
+                contactDetailsViewModel.contact.value?.let {
+                    contactDetailsViewModel.onReminder(args.contactId,it)
+                }
+            }
+        } else {
+            args.contactId.let {
+                contactDetailsViewModel.offReminder(it)
             }
         }
-      //  setAlarm(contact)
+    }
+    override fun onDestroyView() {
+        switchAlarm = null
+        super.onDestroyView()
     }
 
-    private fun setAlarm(contact: Contact){
-       alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(requireContext(),AlarmBirthdayReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(view?.context,0,intent, PendingIntent.FLAG_MUTABLE)
-        val datetimeToAlarm = Calendar.getInstance()
-        datetimeToAlarm.timeInMillis = System.currentTimeMillis()
-        datetimeToAlarm.set(Calendar.DAY_OF_MONTH, contact.day)
-        datetimeToAlarm.set(Calendar.MONTH, contact.mount)
-        datetimeToAlarm.set(Calendar.HOUR_OF_DAY, 12)
-        datetimeToAlarm.set(Calendar.MINUTE, 23)
-
-        alarmManager!!.setExactAndAllowWhileIdle( AlarmManager.RTC_WAKEUP,
-            datetimeToAlarm.timeInMillis,  pendingIntent)
-        alarmManager!!.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            datetimeToAlarm.timeInMillis, (1000 * 60 * 60 * 24 * 7).toLong(), pendingIntent)
+    private fun observeViewModel() {
+        val isAlarmSet = contactDetailsViewModel.isAlarmSet(requireContext(),args.contactId)
+        contactDetailsViewModel.contact.observe(viewLifecycleOwner) { contact ->
+            val tvName = binding.detailName
+            val tvPhoneNumber = binding.detailNumber
+            activity?.runOnUiThread {
+                tvName.text = contact.name
+                tvPhoneNumber.text = contact.number
+                switchAlarm?.isChecked = isAlarmSet
+            }
+        }
     }
 }

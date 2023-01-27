@@ -6,59 +6,64 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
+import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.phonebook.KEY_ID
 import com.example.phonebook.MainActivity
 import com.example.phonebook.R
-import com.example.phonebook.data.Contact
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
 
 object NotificationHelper {
 
-    fun createNotificationChannel(context: Context, importance: Int,
-                                  showBadge: Boolean, name: String, description: String){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channelId = "${context.packageName}-$name"
-            val channel = NotificationChannel(channelId, name, importance)
-            channel.description = description
-            channel.setShowBadge(showBadge)
-
-            val notificationManager = context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
+    fun createNotificationChannel(context: Context, importance: Int, @StringRes name: Int, @StringRes description: Int){
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                context.getString(name),
+                context.getString(description),
+                importance
+            )
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.vibrationPattern =
+                longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+            notificationManager.createNotificationChannel(notificationChannel)
         }
     }
 
     private fun buildNotification(
         context: Context,
-        contact: Contact
+        contactName: String,
+        id:Int
     ): NotificationCompat.Builder {
-        val channelId = "${context.packageName}-buildNotification"
-        val currentDate = Date()
-        val timeFormat: DateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val timeText: String = timeFormat.format(currentDate)
+
+        val channelId =  context.getString(R.string.id_for_channel)
         return NotificationCompat.Builder(context, channelId).apply {
-            setSmallIcon(R.drawable.ic_launcher_background)
-            setContentTitle(contact.name)
+            setSmallIcon(R.drawable.icon_birthday)
+            setContentTitle(context.getString(R.string.today_is_the_birthday, contactName))
+            setContentText(context.getString(R.string.not_forget_to_congratulate))
             setAutoCancel(true)
-            val largeIcon = R.drawable.contact
-            setSubText(timeText)
+            priority = NotificationCompat.PRIORITY_DEFAULT
+            val largeIcon = R.drawable.birthday_image
             setLargeIcon(BitmapFactory.decodeResource(context.resources, largeIcon))
-            setContentText(contact.number)
             val intent = Intent(context, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra("FRAGMENT_NAME", "SOME_FRAGMENT")
+                putExtra("CONTACT_ID", id)
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP  or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                action = Intent.ACTION_MAIN;
+                addCategory(Intent.CATEGORY_LAUNCHER);
             }
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            val pendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             setContentIntent(pendingIntent)
         }
     }
 
-    fun createNotificationForBirthday(context: Context, contact: Contact) {
-        val notificationBuilder = buildNotification(context, contact)
+    fun createNotificationForBirthday(context: Context,  contactId:Int,contactName: String,) {
+        val notificationBuilder = buildNotification(context, contactName,contactId)
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(contact.id, notificationBuilder.build())
+        notificationManager.notify(contactId, notificationBuilder.build())
     }
 }

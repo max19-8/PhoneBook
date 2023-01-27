@@ -34,16 +34,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="36dp"
-            tools:text = "Дата рождения 12.02"/>
-
+            android:textSize="24sp"
+            tools:text = "Максим"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_date_birthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="end"
+       android:layout_marginBottom="4dp"
+        android:layout_marginHorizontal="8dp"
+
+        android:textStyle="italic|bold"
+        android:textColor="@color/brown"
+        android:text="Дата рождения 12.02"
+        tools:text = "Дата рождения 12.02"/>
+
+    <TextView
+        android:id="@+id/tv_select_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="изменить дату"
+        android:textSize="12sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:layout_gravity="end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="8dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -112,12 +132,12 @@
         android:drawablePadding="@dimen/detail_margin_and_padding"
         app:drawableStartCompat="@drawable/ic_baseline_description_24" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchBirthday"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textOff="OFF"
-        android:textOn="ON"
-        android:text="Switch" />
+        android:layout_height="0dp"
+        android:text="Напоминание о дне рождения"
+        android:textSize="18sp"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 </LinearLayout>
