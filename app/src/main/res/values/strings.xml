@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">PhoneBook</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="today_is_the_birthday">Сегодня день рождения у  %1$s</string>
+    <string name="not_forget_to_congratulate"> не забудь поздравить!</string>
+
+    <string name="content_text">\"Сегодня день рождения у \"</string>
+    <string name="id_for_channel">channelID</string>
+    <string name="name_for_channel">chanel from birthday</string>
+    <string name="title_for_notify">65:</string>
+
+    <string name="january">Января</string>
+    <string name="february">Февраля</string>
+    <string name="march">Марта</string>
+    <string name="april">Апреля</string>
+    <string name="may">Мая</string>
+    <string name="june">Июня</string>
+    <string name="july">Июля</string>
+    <string name="august">Августа</string>
+    <string name="september">Сентября</string>
+    <string name="october">Октября</string>
+    <string name="november">Ноября</string>
+    <string name="december">Декабря</string>
+    <string name="date_of_birth">День рождения  %1$s </string>
 </resources>
