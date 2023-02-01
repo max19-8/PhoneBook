@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TelephoneContact">
-        <receiver android:name=".notification.AlarmBirthdayReceiver"/>
+        <receiver
+            android:name=".data.notification.AlarmBirthdayReceiver"
+            android:enabled="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

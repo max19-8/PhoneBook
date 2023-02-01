@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/app_margin"
     android:backgroundTint="@color/white"
-    android:elevation="20dp"
-    app:cardCornerRadius="16dp">
+    android:elevation="@dimen/elevation_card_view"
+    app:cardCornerRadius="@dimen/app_margin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewImage"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:cardCornerRadius="50dp"
+            android:layout_width="@dimen/size_avatar_list"
+            android:layout_height="@dimen/size_avatar_list"
+            app:cardCornerRadius="@dimen/corner_radius_avatar_list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -26,7 +26,7 @@
                 android:id="@+id/listImageContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/user_avatar_description"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
             android:layout_marginStart="@dimen/app_margin"
             android:layout_toEndOf="@+id/cardViewImage"
             android:textColor="@color/brown"
-            android:textSize="22sp"
+            android:textSize="@dimen/tv_contact_name_list_size"
             app:layout_constraintStart_toEndOf="@+id/cardViewImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,10 +53,9 @@
             android:layout_marginTop="@dimen/small_margin"
             android:layout_toEndOf="@+id/cardViewImage"
             android:textColor="@color/brown"
-            android:textSize="18sp"
+            android:textSize="@dimen/tv_contact_number_list_size"
             app:layout_constraintStart_toEndOf="@+id/cardViewImage"
             app:layout_constraintTop_toBottomOf="@+id/listTextViewContact" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
