@@ -4,4 +4,14 @@
     <dimen name="app_margin">16dp</dimen>
     <dimen name="detail_margin_and_padding">20dp</dimen>
     <dimen name="small_margin">4dp</dimen>
+    <dimen name="corner_radius_avatar_list">50dp</dimen>
+    <dimen name="size_avatar_list">56dp</dimen>
+    <dimen name="elevation_card_view">20dp</dimen>
+    <dimen name="tv_contact_name_list_size">22sp</dimen>
+    <dimen name="tv_contact_number_list_size">18sp</dimen>
+    <dimen name="app_elevation">8dp</dimen>
+    <dimen name="app_margin_small">8dp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="big_text_app">24sp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
 </resources>

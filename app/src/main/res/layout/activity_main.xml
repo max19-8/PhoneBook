@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/dark_grey"
         android:backgroundTint="@color/dark_grey"
-        android:elevation="4dp"
+        android:elevation="@dimen/app_elevation"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
 
 <androidx.fragment.app.FragmentContainerView

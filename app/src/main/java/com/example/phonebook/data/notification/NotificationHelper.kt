@@ -1,4 +1,4 @@
-package com.example.phonebook.notification
+package com.example.phonebook.data.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -53,10 +54,11 @@ object NotificationHelper {
                 putExtra("FRAGMENT_NAME", "SOME_FRAGMENT")
                 putExtra("CONTACT_ID", id)
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP  or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                action = Intent.ACTION_MAIN;
-                addCategory(Intent.CATEGORY_LAUNCHER);
+                action = Intent.ACTION_MAIN
+                addCategory(Intent.CATEGORY_LAUNCHER)
             }
-            val pendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+
+            val pendingIntent = PendingIntent.getActivity(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             setContentIntent(pendingIntent)
         }
     }
@@ -65,5 +67,6 @@ object NotificationHelper {
         val notificationBuilder = buildNotification(context, contactName,contactId)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(contactId, notificationBuilder.build())
+        Log.d("AlarmBirthdayReceiver", contactId.toString() + contactName)
     }
 }

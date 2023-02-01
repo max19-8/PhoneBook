@@ -24,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/contact" />
+                app:srcCompat="@drawable/contact"
+                android:contentDescription="@string/description_user_avatar_details_screen" />
 
         </androidx.cardview.widget.CardView>
 
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="24sp"
+            android:textSize="@dimen/big_text_app"
             tools:text = "Максим"/>
     </LinearLayout>
 
@@ -45,31 +46,29 @@
         android:gravity="center"
         android:layout_gravity="end"
        android:layout_marginBottom="4dp"
-        android:layout_marginHorizontal="8dp"
-
+        android:layout_marginHorizontal="@dimen/app_margin_small"
         android:textStyle="italic|bold"
         android:textColor="@color/brown"
-        android:text="Дата рождения 12.02"
         tools:text = "Дата рождения 12.02"/>
 
     <TextView
         android:id="@+id/tv_select_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="изменить дату"
-        android:textSize="12sp"
+        android:text="@string/change_date_birthday"
+        android:textSize="@dimen/text_size_small"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
         android:layout_gravity="end"
-        android:layout_marginBottom="16dp"
-        android:layout_marginHorizontal="8dp"/>
+        android:layout_marginBottom="@dimen/app_margin"
+        android:layout_marginHorizontal="@dimen/app_margin_small"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="mobile1"
+        android:text="@string/mobile1_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -82,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="mobile2"
+        android:text="@string/mobile2_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -95,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="email1"
+        android:text="@string/email1_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -108,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="email2"
+        android:text="@string/email2_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -121,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="description"
+        android:text="@string/description_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -136,8 +135,8 @@
         android:id="@+id/switchBirthday"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:text="Напоминание о дне рождения"
-        android:textSize="18sp"
+        android:layout_marginHorizontal="@dimen/app_margin_small"
+        android:text="@string/reminder_birthday_text"
+        android:textSize="@dimen/medium_text_size"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
-
 </LinearLayout>

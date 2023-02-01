@@ -23,4 +23,13 @@
     <string name="november">Ноября</string>
     <string name="december">Декабря</string>
     <string name="date_of_birth">День рождения  %1$s </string>
+    <string name="user_avatar_description">User Avatar in List Users</string>
+    <string name="reminder_birthday_text">Напоминание о дне рождения</string>
+    <string name="change_date_birthday">изменить дату</string>
+    <string name="description_text">description</string>
+    <string name="email2_text">email2</string>
+    <string name="email1_text">email1</string>
+    <string name="mobile2_text">mobile2</string>
+    <string name="mobile1_text">mobile1</string>
+    <string name="description_user_avatar_details_screen">User Avatar from Detail Screen</string>
 </resources>

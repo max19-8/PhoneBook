@@ -4,7 +4,7 @@
     android:id="@+id/contactListFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="8dp"
+    android:elevation="@dimen/app_elevation"
     android:orientation="vertical">
 
     <include

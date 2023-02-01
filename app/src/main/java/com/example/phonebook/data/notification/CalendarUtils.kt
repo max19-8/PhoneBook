@@ -1,10 +1,13 @@
-package com.example.phonebook.notification
+package com.example.phonebook.data.notification
 
 import java.util.*
 
 fun putNextBirthday(calendar: Calendar?, calendarNow: Calendar): Calendar {
     val calendarNext = calendar as GregorianCalendar
     val currentYear = calendarNow.get(Calendar.YEAR)
+    calendarNext[Calendar.SECOND] = 0
+    calendarNext[Calendar.MINUTE] = 0
+    calendarNext[Calendar.HOUR] = 0
     calendarNext[Calendar.DATE] = calendar[Calendar.DATE]
     calendarNext[Calendar.MONTH] = calendar[Calendar.MONTH]
     calendarNext[Calendar.YEAR] = calendar[Calendar.YEAR]

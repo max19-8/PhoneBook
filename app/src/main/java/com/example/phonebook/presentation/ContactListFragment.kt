@@ -14,7 +14,7 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>(){
 
     private val contactListViewModel by lazy {
         ContactListViewModel(ListContactUseCase(ContactsRepository(
-            NotificationSwitcher(requireContext())
+            NotificationSwitcher(requireActivity().applicationContext)
         )))
 
     }
