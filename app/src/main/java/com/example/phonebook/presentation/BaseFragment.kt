@@ -9,10 +9,10 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment<viewBinding:ViewBinding>:Fragment() {
+abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
 
-    private var _binding: viewBinding? =null
-    val binding :viewBinding get() = _binding!!
+    private var _binding: viewBinding? = null
+    val binding: viewBinding get() = _binding!!
     protected abstract fun getViewBinding(): viewBinding
 
     override fun onCreateView(

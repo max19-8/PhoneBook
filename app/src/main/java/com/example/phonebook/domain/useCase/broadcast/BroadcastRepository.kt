@@ -9,6 +9,6 @@ interface BroadcastRepository {
 
     fun onReminder(id: Int, contact: Contact)
 
-    fun isAlarmSet(context: Context,contactId:Int):Boolean
+    fun isAlarmSet(context: Context, contactId: Int): Boolean
 
 }

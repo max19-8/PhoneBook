@@ -4,5 +4,6 @@ import android.content.Context
 
 class IsAlarmSetUseCase(private val repository: BroadcastRepository) {
 
-    operator fun invoke(context: Context,contactId: Int) = repository.isAlarmSet(context, contactId)
+    operator fun invoke(context: Context, contactId: Int) =
+        repository.isAlarmSet(context, contactId)
 }

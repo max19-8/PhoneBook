@@ -7,8 +7,8 @@ import com.example.phonebook.domain.useCase.listContact.ListContactUseCase
 
 class ContactListViewModel(
     private val listContactUseCase: ListContactUseCase
-)  {
-    private val mutableContactList  = MutableLiveData<List<Contact>>()
+) {
+    private val mutableContactList = MutableLiveData<List<Contact>>()
     val contactList = mutableContactList as LiveData<List<Contact>>
 
     private fun getContacts() {

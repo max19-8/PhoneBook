@@ -9,7 +9,6 @@
     <string name="id_for_channel">channelID</string>
     <string name="name_for_channel">chanel from birthday</string>
     <string name="title_for_notify">65:</string>
-
     <string name="january">Января</string>
     <string name="february">Февраля</string>
     <string name="march">Марта</string>
@@ -32,4 +31,9 @@
     <string name="mobile2_text">mobile2</string>
     <string name="mobile1_text">mobile1</string>
     <string name="description_user_avatar_details_screen">User Avatar from Detail Screen</string>
+    <string name="permission_information_text">Для корректной работы приложения требуется доступ к контактам.\nВы сможете отозвать доступ через меню настроек в любой момент.</string>
+    <string name="allow_contacts_title">Разрешить доступ к контактам?</string>
+    <string name="permission_contacts_button_text">Разрешить</string>
+    <string name="snack_bar_get_permission_text">Приложению необходим доступ к телефонной книге</string>
+    <string name="another_time_text">Не сейчас</string>
 </resources>

@@ -4,9 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.example.phonebook.domain.useCase.broadcast.BroadcastRepository
 import com.example.phonebook.data.notification.AlarmBirthdayReceiver
 import com.example.phonebook.data.notification.BirthdayAlarmManger
+import com.example.phonebook.domain.useCase.broadcast.BroadcastRepository
 
 
 class NotificationSwitcher(private val context: Context) : BroadcastRepository {

@@ -57,8 +57,12 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
         observeViewModel()
         //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
         val cal = listOfContacts[args.contactId].birthday
-        val stringMonth = MonthFormatter().convertNumberMountToInt(cal[Calendar.MONTH], requireContext())
-        dateTv?.text =  (context?.getString(R.string.date_of_birth, "${cal[Calendar.DATE]} $stringMonth ${cal[Calendar.YEAR]}"))
+        val stringMonth =
+            MonthFormatter().convertNumberMountToInt(cal[Calendar.MONTH], requireContext())
+        dateTv?.text = (context?.getString(
+            R.string.date_of_birth,
+            "${cal[Calendar.DATE]} $stringMonth ${cal[Calendar.YEAR]}"
+        ))
     }
 
     private fun showDatePickerDialog() {
@@ -71,13 +75,16 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
         //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
         val dateBirthday = (context?.getString(R.string.date_of_birth, "$day $stringMonth $year"))
         dateTv?.text = dateBirthday
-        listOfContacts[args.contactId].birthday =  GregorianCalendar(year, month, day, 0, 0, 0)
-        Log.d("onDateSelected",    listOfContacts[args.contactId].birthday.toString() + "date birthday")
+        listOfContacts[args.contactId].birthday = GregorianCalendar(year, month, day, 0, 0, 0)
+        Log.d(
+            "onDateSelected",
+            listOfContacts[args.contactId].birthday.toString() + "date birthday"
+        )
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            contactDetailsViewModel.contact.value?.let {
-                contactDetailsViewModel.changeNotifyStatus(isChecked,args.contactId)
+        contactDetailsViewModel.contact.value?.let {
+            contactDetailsViewModel.changeNotifyStatus(isChecked, args.contactId)
         }
     }
 
@@ -87,7 +94,8 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     }
 
     private fun observeViewModel() {
-        val isAlarmSet = contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contactId)
+        val isAlarmSet =
+            contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contactId)
         Log.d("AlarmBirthdayReceiver", isAlarmSet.toString() + "isAlarmSet")
         contactDetailsViewModel.contact.observe(viewLifecycleOwner) { contact ->
             val tvName = binding.detailName

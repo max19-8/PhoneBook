@@ -16,7 +16,7 @@ class ContactDetailsViewModel(
     private val isAlarmSetUseCase: IsAlarmSetUseCase,
 ) {
     private val _contact = MutableLiveData<Contact>()
-    val contact:LiveData<Contact> get() = _contact
+    val contact: LiveData<Contact> get() = _contact
 
     private fun getContact() {
         val detailedInformationAboutContact = detailsContactUseCase(0)
@@ -27,15 +27,15 @@ class ContactDetailsViewModel(
         getContact()
     }
 
-    fun changeNotifyStatus(notifyStatus: Boolean,id: Int) {
-            if (notifyStatus) {
-                contact.value?.let {
-                    onReminderUseCase(id, it)
-                }
-            } else {
-                offReminderUseCase(id)
+    fun changeNotifyStatus(notifyStatus: Boolean, id: Int) {
+        if (notifyStatus) {
+            contact.value?.let {
+                onReminderUseCase(id, it)
             }
+        } else {
+            offReminderUseCase(id)
+        }
     }
 
-    fun isAlarmSet(context: Context,contactId:Int) = isAlarmSetUseCase(context, contactId)
+    fun isAlarmSet(context: Context, contactId: Int) = isAlarmSetUseCase(context, contactId)
 }
