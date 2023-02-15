@@ -1,18 +1,22 @@
 package com.example.phonebook
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.phonebook.data.Contact
 import com.example.phonebook.databinding.ActivityMainBinding
-
+import com.example.phonebook.presentation.ContactListFragment
 import com.example.phonebook.presentation.ContactListFragmentDirections
+import com.example.phonebook.presentation.RequestContactsPermission
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), RequestContactsPermission {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -25,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initToolbar()
-        Log.d("MainActivityfsfsdfsd", "onCreate маин активити")
         if (savedInstanceState == null) {
             getIntentFromNotification(intent)
         }
@@ -46,21 +49,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getIntentFromNotification(intent: Intent?) {
-        val contactId = intent?.getIntExtra("CONTACT_ID", 22)
+        val contact = intent?.getParcelableExtra<Contact>("CONTACT")
         val navController = navHostFragment.navController
         val frag = intent?.getStringExtra("FRAGMENT_NAME")
-        frag?.let {
-            when (frag) {
-                "SOME_FRAGMENT" -> {
-                    Log.d("SOME_FRAGMENT", "FRAGMENT_NAME")
-                    navController.navigate(
-                        ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(
-                            contactId ?: 0
+        if (contact !=null){
+            frag?.let {
+                when (frag) {
+                    "SOME_FRAGMENT" -> {
+                        Log.d("SOME_FRAGMENT", "FRAGMENT_NAME")
+                        navController.navigate(
+                            ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(contact)
                         )
-                    )
+                    }
+                    else -> throw RuntimeException("Unknown fragment")
                 }
-                else -> throw RuntimeException()
             }
         }
+    }
+
+    override fun getRequestPermission() {
+        val fragment = getCurrentVisibleFragment()
+        if (fragment != null) {
+            (fragment as ContactListFragment).requestPermission()
+        }
+    }
+
+    private fun getCurrentVisibleFragment(): Fragment? {
+        val fragmentManager = navHostFragment.childFragmentManager
+        val fragment = fragmentManager.primaryNavigationFragment
+        return if (fragment is ContactListFragment) {
+            fragment
+        } else null
     }
 }

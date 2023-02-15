@@ -24,4 +24,17 @@
     <style name="datePickerFragment" parent="android:Theme.Material.Light.Dialog" >
         <item name="android:colorAccent">@color/dark_grey</item>
     </style>
+
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_rounded_dialog</item>
+    </style>
+
+
 </resources>

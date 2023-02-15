@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.phonebook.R
 import com.example.phonebook.data.NotificationSwitcher
 import com.example.phonebook.data.listOfContacts
+import com.example.phonebook.data.localDataSource.ContactProvider
 import com.example.phonebook.data.repository.ContactsRepository
 import com.example.phonebook.databinding.FragmentDetailContactBinding
 import com.example.phonebook.domain.useCase.broadcast.IsAlarmSetUseCase
@@ -19,14 +20,13 @@ import com.example.phonebook.domain.useCase.contactDetail.DetailsContactUseCase
 import com.example.phonebook.utils.MonthFormatter
 import java.util.*
 
-
 class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     CompoundButton.OnCheckedChangeListener {
 
     private var dateTv: TextView? = null
 
     private val repository by lazy {
-        ContactsRepository(NotificationSwitcher(requireActivity().applicationContext))
+        ContactsRepository( ContactProvider(requireContext().contentResolver),NotificationSwitcher(requireActivity().applicationContext))
     }
     private val contactDetailsViewModel by lazy {
         ContactDetailsViewModel(
@@ -55,10 +55,14 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
             showDatePickerDialog()
         }
         observeViewModel()
-        //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
-        val cal = listOfContacts[args.contactId].birthday
-        val stringMonth = MonthFormatter().convertNumberMountToInt(cal[Calendar.MONTH], requireContext())
-        dateTv?.text =  (context?.getString(R.string.date_of_birth, "${cal[Calendar.DATE]} $stringMonth ${cal[Calendar.YEAR]}"))
+//        //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
+//        val cal = listOfContacts[args.contact.id].birthday
+//        val stringMonth =
+//            MonthFormatter().convertNumberMountToInt(cal?.get(Calendar.MONTH) ?: 0, requireContext())
+//        dateTv?.text = (context?.getString(
+//            R.string.date_of_birth,
+//            "${cal?.get(Calendar.DATE)} $stringMonth ${cal?.get(Calendar.YEAR)}"
+//        ))
     }
 
     private fun showDatePickerDialog() {
@@ -71,14 +75,15 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
         //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
         val dateBirthday = (context?.getString(R.string.date_of_birth, "$day $stringMonth $year"))
         dateTv?.text = dateBirthday
-        listOfContacts[args.contactId].birthday =  GregorianCalendar(year, month, day, 0, 0, 0)
-        Log.d("onDateSelected",    listOfContacts[args.contactId].birthday.toString() + "date birthday")
+        listOfContacts[args.contact.id].birthday = GregorianCalendar(year, month, day, 0, 0, 0)
+        Log.d(
+            "onDateSelected",
+            listOfContacts[args.contact.id].birthday.toString() + "date birthday"
+        )
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            contactDetailsViewModel.contact.value?.let {
-                contactDetailsViewModel.changeNotifyStatus(isChecked,args.contactId)
-        }
+            contactDetailsViewModel.changeNotifyStatus(isChecked,args.contact)
     }
 
     override fun onDestroyView() {
@@ -87,16 +92,10 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     }
 
     private fun observeViewModel() {
-        val isAlarmSet = contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contactId)
-        Log.d("AlarmBirthdayReceiver", isAlarmSet.toString() + "isAlarmSet")
-        contactDetailsViewModel.contact.observe(viewLifecycleOwner) { contact ->
-            val tvName = binding.detailName
-            val tvPhoneNumber = binding.detailNumber
-            activity?.runOnUiThread {
-                tvName.text = contact.name
-                tvPhoneNumber.text = contact.number
-                switchAlarm?.isChecked = isAlarmSet
-            }
+        val isAlarmSet =
+            contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contact)
+            binding.detailName.text = args.contact.name
+            binding.detailNumber.text = args.contact.name
+            switchAlarm?.isChecked = isAlarmSet
         }
     }
-}
