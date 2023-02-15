@@ -4,19 +4,20 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.example.phonebook.domain.useCase.broadcast.BroadcastRepository
+import android.util.Log
 import com.example.phonebook.data.notification.AlarmBirthdayReceiver
 import com.example.phonebook.data.notification.BirthdayAlarmManger
+import com.example.phonebook.domain.useCase.broadcast.BroadcastRepository
 
 
 class NotificationSwitcher(private val context: Context) : BroadcastRepository {
 
 
-    override fun offReminder(id: Int) {
+    override fun offReminder(contact: Contact) {
         val intent = AlarmBirthdayReceiver.newIntent(context)
 
         val alarmIntent = createPendingIntent(
-            id,
+            contact,
             intent,
             PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -26,32 +27,30 @@ class NotificationSwitcher(private val context: Context) : BroadcastRepository {
         alarmIntent?.cancel()
     }
 
-    override fun onReminder(id: Int, contact: Contact) {
+    override fun onReminder(contact: Contact) {
         val intent = AlarmBirthdayReceiver.newIntent(context)
         intent.apply {
-            putExtra(FULL_NAME, contact.name)
-            putExtra(CONTACT_BIRTHDAY, contact.birthday)
-            putExtra(CONTACT_ID, contact.id)
+            putExtra(CONTACT, contact)
         }
-        val existingIntent = isAlarmSet(context, contact.id)
+        val existingIntent = isAlarmSet(context, contact)
         if (!existingIntent) {
             val alarmIntent = createPendingIntent(
-                contact.id,
+                contact,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
-            BirthdayAlarmManger.createAlarmFromBirthday(context, contact.birthday, alarmIntent)
-
-
+            contact.birthday?.let {
+                BirthdayAlarmManger.createAlarmFromBirthday(context,
+                    it, alarmIntent)
+            }
+            Log.d("onReminder",contact.birthday.toString())
         }
     }
 
-
-    override fun isAlarmSet(context: Context, contactId: Int): Boolean {
+    override fun isAlarmSet(context: Context, contact: Contact): Boolean {
         val intent = AlarmBirthdayReceiver.newIntent(context)
-
         val alarmIntent = createPendingIntent(
-            contactId,
+            contact,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
         )
@@ -59,18 +58,16 @@ class NotificationSwitcher(private val context: Context) : BroadcastRepository {
         return alarmIntent != null
     }
 
-    private fun createPendingIntent(contactId: Int, intent: Intent, flag: Int) =
+    private fun createPendingIntent(contact: Contact, intent: Intent, flag: Int) =
         PendingIntent.getBroadcast(
             context,
-            contactId,
+            contact.id,
             intent,
             flag
         )
 
 
     companion object {
-        private const val CONTACT_ID = "id"
-        private const val FULL_NAME = "FULL_NAME"
-        private const val CONTACT_BIRTHDAY = "contactBirthday"
+        private const val CONTACT = "contact"
     }
 }

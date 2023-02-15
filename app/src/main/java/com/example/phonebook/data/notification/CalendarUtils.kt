@@ -27,18 +27,18 @@ fun putNextBirthday(calendar: Calendar?, calendarNow: Calendar): Calendar {
             while (!calendarNext.isLeapYear(calendarNext[Calendar.YEAR])) {
                 ++calendarNext[Calendar.YEAR]
             }
-            calendarNext[Calendar.MONTH]=Calendar.FEBRUARY
-            calendarNext[Calendar.DAY_OF_MONTH]=29
+            calendarNext[Calendar.MONTH] = Calendar.FEBRUARY
+            calendarNext[Calendar.DAY_OF_MONTH] = 29
         } else {
-            calendar[Calendar.MONTH]=Calendar.FEBRUARY
-            calendar[Calendar.DAY_OF_MONTH]=29
+            calendar[Calendar.MONTH] = Calendar.FEBRUARY
+            calendar[Calendar.DAY_OF_MONTH] = 29
 
             calendarNext[Calendar.YEAR] = currentYear + 1
             while (!calendarNext.isLeapYear(calendarNext[Calendar.YEAR])) {
                 ++calendarNext[Calendar.YEAR]
             }
-            calendarNext[Calendar.MONTH]=Calendar.FEBRUARY
-            calendarNext[Calendar.DAY_OF_MONTH]=29
+            calendarNext[Calendar.MONTH] = Calendar.FEBRUARY
+            calendarNext[Calendar.DAY_OF_MONTH] = 29
         }
     }
     return calendarNext

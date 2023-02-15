@@ -8,14 +8,18 @@ import java.util.*
 
 object BirthdayAlarmManger {
 
-    fun createAlarmFromBirthday(context: Context,  contactBirthday:Calendar, pendingIntent: PendingIntent) {
+    fun createAlarmFromBirthday(
+        context: Context,
+        contactBirthday: Calendar,
+        pendingIntent: PendingIntent
+    ) {
 
         val date = putNextBirthday(contactBirthday, Calendar.getInstance()).timeInMillis
 
-        Log.d("createAlarmFromBirthday",date.toString())
+        Log.d("createAlarmFromBirthday", date.toString())
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-        alarmManager?.set(AlarmManager.RTC_WAKEUP, date, pendingIntent)
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, date, pendingIntent)
     }
 }
