@@ -15,9 +15,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.phonebook.MainActivity
 import com.example.phonebook.R
 import com.example.phonebook.data.Contact
-
 object NotificationHelper {
-
     fun createNotificationChannel(
         context: Context,
         importance: Int,
@@ -30,8 +28,7 @@ object NotificationHelper {
             val notificationChannel = NotificationChannel(
                 context.getString(name),
                 context.getString(description),
-                importance
-            )
+                importance)
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
             notificationChannel.enableVibration(true)
@@ -44,7 +41,6 @@ object NotificationHelper {
     private fun buildNotification(
         context: Context,
         contact: Contact
-
     ): NotificationCompat.Builder {
 
         val channelId = context.getString(R.string.id_for_channel)
@@ -78,6 +74,6 @@ object NotificationHelper {
         val notificationBuilder = buildNotification(context, contact)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(contact.id, notificationBuilder.build())
-        Log.d("AlarmBirthdayReceiver", contact.id.toString() + contact.name)
     }
+
 }

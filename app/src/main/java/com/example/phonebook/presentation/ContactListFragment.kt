@@ -78,7 +78,7 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
             }
         }
     }
-    fun createImage(name:String,button: Button) {
+   private fun createImage(name:String,button: Button) {
         val strArray = name.split(" ").toTypedArray()
         val builder = StringBuilder()
 //First name

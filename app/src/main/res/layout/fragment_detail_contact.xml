@@ -5,29 +5,28 @@
     android:id="@+id/detailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/detail_image_contact"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_margin="@dimen/app_margin"
-            app:cardCornerRadius="50dp"
-            app:cardElevation="10dp">
-
-            <ImageView
-                android:id="@+id/detail_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/contact"
-                android:contentDescription="@string/description_user_avatar_details_screen" />
-
-        </androidx.cardview.widget.CardView>
+            android:background="@drawable/profile_bg_avatar"
+            android:clickable="false"
+            android:contentDescription="@string/user_avatar_description"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="MN" />
 
         <TextView
             android:id="@+id/detail_name"
@@ -35,8 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="24dp"
             android:textSize="@dimen/big_text_app"
-            tools:text = "Максим"/>
+            tools:text="Максим" />
     </LinearLayout>
 
     <TextView
@@ -45,30 +45,17 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="end"
-       android:layout_marginBottom="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginHorizontal="@dimen/app_margin_small"
         android:textStyle="italic|bold"
         android:textColor="@color/brown"
         tools:text = "Дата рождения 12.02"/>
 
     <TextView
-        android:id="@+id/tv_select_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/change_date_birthday"
-        android:textSize="@dimen/text_size_small"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:layout_gravity="end"
-        android:layout_marginBottom="@dimen/app_margin"
-        android:layout_marginHorizontal="@dimen/app_margin_small"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="@string/mobile1_text"
+        android:text="@string/mobile_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -78,23 +65,11 @@
         app:drawableStartCompat="@drawable/ic_baseline_call_24" />
 
     <TextView
+        android:id="@+id/text_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="@string/mobile2_text"
-        android:textSize="@dimen/small_text_view" />
-
-    <TextView
-        android:id="@+id/detail_number2"
-        style="@style/StyleTextViewDetail"
-        android:drawablePadding="@dimen/detail_margin_and_padding"
-        app:drawableStartCompat="@drawable/ic_baseline_call_24" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="@string/email1_text"
+        android:text="@string/email_text"
         android:textSize="@dimen/small_text_view" />
 
     <TextView
@@ -103,40 +78,33 @@
         android:drawablePadding="@dimen/detail_margin_and_padding"
         app:drawableStartCompat="@drawable/ic_baseline_alternate_email_24" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="@string/email2_text"
-        android:textSize="@dimen/small_text_view" />
 
-    <TextView
-        android:id="@+id/detail_email2"
-        style="@style/StyleTextViewDetail"
-        android:drawablePadding="@dimen/detail_margin_and_padding"
-        app:drawableStartCompat="@drawable/ic_baseline_alternate_email_24" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/detail_margin_and_padding"
-        android:text="@string/description_text"
-        android:textSize="@dimen/small_text_view" />
-
-    <TextView
-        android:id="@+id/detail_description"
-        style="@style/StyleTextViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawablePadding="@dimen/detail_margin_and_padding"
-        app:drawableStartCompat="@drawable/ic_baseline_description_24" />
-
-    <androidx.appcompat.widget.SwitchCompat
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switchBirthday"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/app_margin_small"
         android:text="@string/reminder_birthday_text"
-        android:textSize="@dimen/medium_text_size"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        android:textSize="@dimen/medium_text_size"/>
+
+    <ImageButton
+        android:id="@+id/call_the_phone"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:layout_marginTop="@dimen/top_margin_image"
+        android:src="@drawable/baseline_call_24"
+        android:textSize="12sp"
+        android:contentDescription="@string/call_the_phone_button_description" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/middle_margin"
+        android:layout_marginStart="@dimen/detail_margin_and_padding"
+        android:text="@string/call_text"
+        android:textSize="@dimen/middle_text_size" />
+
 </LinearLayout>

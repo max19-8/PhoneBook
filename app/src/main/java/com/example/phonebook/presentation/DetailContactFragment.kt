@@ -1,36 +1,39 @@
 package com.example.phonebook.presentation
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.CompoundButton
-import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.navigation.fragment.navArgs
 import com.example.phonebook.R
 import com.example.phonebook.data.NotificationSwitcher
-import com.example.phonebook.data.listOfContacts
 import com.example.phonebook.data.localDataSource.ContactProvider
 import com.example.phonebook.data.repository.ContactsRepository
 import com.example.phonebook.databinding.FragmentDetailContactBinding
 import com.example.phonebook.domain.useCase.broadcast.IsAlarmSetUseCase
 import com.example.phonebook.domain.useCase.broadcast.OffReminderUseCase
 import com.example.phonebook.domain.useCase.broadcast.OnReminderUseCase
-import com.example.phonebook.domain.useCase.contactDetail.DetailsContactUseCase
-import com.example.phonebook.utils.MonthFormatter
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     CompoundButton.OnCheckedChangeListener {
 
-    private var dateTv: TextView? = null
 
     private val repository by lazy {
-        ContactsRepository( ContactProvider(requireContext().contentResolver),NotificationSwitcher(requireActivity().applicationContext))
+        ContactsRepository(
+            ContactProvider(requireContext().contentResolver),
+            NotificationSwitcher(requireActivity().applicationContext)
+        )
     }
     private val contactDetailsViewModel by lazy {
         ContactDetailsViewModel(
-            DetailsContactUseCase(repository),
             OnReminderUseCase(repository),
             OffReminderUseCase(repository),
             IsAlarmSetUseCase(repository)
@@ -47,43 +50,13 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dateTv = binding.tvDateBirthday
         switchAlarm = binding.switchBirthday
         switchAlarm?.setOnCheckedChangeListener(this)
-        val selectDate = binding.tvSelectDate
-        selectDate.setOnClickListener {
-            showDatePickerDialog()
-        }
         observeViewModel()
-//        //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
-//        val cal = listOfContacts[args.contact.id].birthday
-//        val stringMonth =
-//            MonthFormatter().convertNumberMountToInt(cal?.get(Calendar.MONTH) ?: 0, requireContext())
-//        dateTv?.text = (context?.getString(
-//            R.string.date_of_birth,
-//            "${cal?.get(Calendar.DATE)} $stringMonth ${cal?.get(Calendar.YEAR)}"
-//        ))
-    }
-
-    private fun showDatePickerDialog() {
-        val datePicker = DatePickerFragment { day, month, year -> onDateSelected(day, month, year) }
-        datePicker.show(childFragmentManager, "datePicker")
-    }
-
-    private fun onDateSelected(day: Int, month: Int, year: Int) {
-        val stringMonth = MonthFormatter().convertNumberMountToInt(month, requireContext())
-        //FIXME(Ниже логика просто для красоты, при добавлении поставщика контактов все будет переделано))
-        val dateBirthday = (context?.getString(R.string.date_of_birth, "$day $stringMonth $year"))
-        dateTv?.text = dateBirthday
-        listOfContacts[args.contact.id].birthday = GregorianCalendar(year, month, day, 0, 0, 0)
-        Log.d(
-            "onDateSelected",
-            listOfContacts[args.contact.id].birthday.toString() + "date birthday"
-        )
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            contactDetailsViewModel.changeNotifyStatus(isChecked,args.contact)
+        contactDetailsViewModel.changeNotifyStatus(isChecked, args.contact)
     }
 
     override fun onDestroyView() {
@@ -94,8 +67,57 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     private fun observeViewModel() {
         val isAlarmSet =
             contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contact)
-            binding.detailName.text = args.contact.name
-            binding.detailNumber.text = args.contact.name
+        binding.detailName.text = args.contact.name
+        binding.detailNumber.text = args.contact.number
+        createImage(args.contact.name, binding.detailImageContact)
+        val calendar = args.contact.birthday
+        Log.d("observeViewModel", calendar.toString())
+        if (calendar != null) {
+            val dateBirthday =
+                (context?.getString(R.string.date_of_birth, calendarToStringDate(calendar)))
+            binding.tvDateBirthday.text = dateBirthday
             switchAlarm?.isChecked = isAlarmSet
+        } else {
+            binding.tvDateBirthday.visibility = View.GONE
+            switchAlarm?.visibility = View.GONE
+        }
+        if (args.contact.email.isNullOrBlank()) {
+            binding.detailEmail.visibility = View.GONE
+            binding.textEmail.visibility = View.GONE
+        } else {
+            binding.detailEmail.text = args.contact.email
+        }
+        binding.callThePhone.setOnClickListener {
+           callThePhone(args.contact.number)
         }
     }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun calendarToStringDate(calendar: Calendar): String {
+        val formatter = SimpleDateFormat(DATE_PATTERN)
+        return formatter.format(calendar.time)
+    }
+
+    private fun createImage(name: String, button: Button) {
+        val strArray = name.split(" ").toTypedArray()
+        val builder = StringBuilder()
+        if (strArray.isNotEmpty()) {
+            builder.append(strArray[0], 0, 1)
+        }
+        if (strArray.size > 1) {
+            builder.append(strArray[1], 0, 1)
+        }
+        button.text = builder.toString()
+    }
+
+    private fun callThePhone(number:String){
+        val intent = Intent(Intent.ACTION_DIAL)
+        val phone = "tel:$number"
+        intent.data = Uri.parse(phone)
+        startActivity(intent)
+    }
+
+    companion object {
+        private const val DATE_PATTERN = "dd-MM-yyyy"
+    }
+}
