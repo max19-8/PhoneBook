@@ -11,12 +11,16 @@ class ContactListViewModel(
     private val mutableContactList = MutableLiveData<List<Contact>>()
     val contactList = mutableContactList as LiveData<List<Contact>>
 
-    private fun getContacts() {
-        val listDetailedInformationAboutContact = listContactUseCase()
+     fun getContacts(query:String) {
+        val listDetailedInformationAboutContact = listContactUseCase(query)
         mutableContactList.value = listDetailedInformationAboutContact
     }
 
     init {
-        getContacts()
+        getContacts(EMPTY_QUERY)
+    }
+
+    companion object {
+        const val EMPTY_QUERY = ""
     }
 }

@@ -20,6 +20,6 @@ object BirthdayAlarmManger {
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
-        alarmManager?.set(AlarmManager.RTC_WAKEUP, date, pendingIntent)
+        alarmManager?.setExact(AlarmManager.RTC_WAKEUP, date, pendingIntent)
     }
 }

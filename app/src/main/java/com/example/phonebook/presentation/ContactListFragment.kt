@@ -1,17 +1,18 @@
 package com.example.phonebook.presentation
 
 import android.Manifest
+import android.R.attr.button
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.phonebook.R
 import com.example.phonebook.data.NotificationSwitcher
+import com.example.phonebook.data.localDataSource.ContactProvider
 import com.example.phonebook.data.repository.ContactsRepository
 import com.example.phonebook.databinding.FragmentContactListBinding
 import com.example.phonebook.domain.useCase.listContact.ListContactUseCase
-import com.google.android.material.snackbar.Snackbar
 
 
 class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
@@ -22,7 +23,7 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             when {
                 granted -> {
-                    //         preparingContactsInfoForDisplay()
+                   observeViewModel()
                 }
                 ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
@@ -37,17 +38,13 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
         }
     }
 
-    private fun showPermissionDialog() {
-        ObtainingPermissionFragment().show(parentFragmentManager, ObtainingPermissionFragment.TAG)
-    }
-
 
     private val contactListViewModel by lazy {
         ContactListViewModel(
             ListContactUseCase(
                 ContactsRepository(
-                    NotificationSwitcher(requireActivity().applicationContext)
-                )
+                    ContactProvider(requireContext().contentResolver),
+                    NotificationSwitcher(requireActivity().applicationContext))
             )
         )
 
@@ -59,11 +56,10 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
         binding.contactItem.item.setOnClickListener {
             navigate(
                 ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(
-                    0
+                    contactListViewModel.contactList.value!!.last()
                 )
             )
         }
-        observeViewModel()
     }
 
     fun requestPermission() {
@@ -75,22 +71,29 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
             activity?.runOnUiThread {
                 val tvName = binding.contactItem.listTextViewContact
                 val tvPhoneNumber = binding.contactItem.listTextViewNumber
-                tvName.text = it[0].name
-                tvPhoneNumber.text = it[0].number
+                val image = binding.contactItem.listImageContact
+                tvName.text = it.last().name
+                tvPhoneNumber.text = it.last().number
+                    createImage(it.last().name,image)
             }
         }
     }
+    fun createImage(name:String,button: Button) {
+        val strArray = name.split(" ").toTypedArray()
+        val builder = StringBuilder()
+//First name
+        if (strArray.isNotEmpty()) {
+            builder.append(strArray[0], 0, 1)
+        }
+        //Middle name
+        if (strArray.size > 1) {
+            builder.append(strArray[1], 0, 1)
+        }
+        button.text = builder.toString()
+    }
 
-    private fun createSnackBar(text: String) {
-        val snackBar =
-            Snackbar.make(binding.root, text, Snackbar.LENGTH_LONG)
-        snackBar.setBackgroundTint(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.black
-            )
-        )
-        snackBar.show()
+    private fun showPermissionDialog() {
+        ObtainingPermissionFragment().show(parentFragmentManager, ObtainingPermissionFragment.TAG)
     }
 }
 

@@ -5,10 +5,10 @@ import com.example.phonebook.data.Contact
 
 interface BroadcastRepository {
 
-    fun offReminder(id: Int)
+    fun offReminder(contact: Contact)
 
-    fun onReminder(id: Int, contact: Contact)
+    fun onReminder(contact: Contact)
 
-    fun isAlarmSet(context: Context, contactId: Int): Boolean
+    fun isAlarmSet(context: Context, contact: Contact): Boolean
 
 }

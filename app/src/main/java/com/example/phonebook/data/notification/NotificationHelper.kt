@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.phonebook.MainActivity
 import com.example.phonebook.R
+import com.example.phonebook.data.Contact
 
 object NotificationHelper {
 
@@ -42,14 +43,14 @@ object NotificationHelper {
 
     private fun buildNotification(
         context: Context,
-        contactName: String,
-        id: Int
+        contact: Contact
+
     ): NotificationCompat.Builder {
 
         val channelId = context.getString(R.string.id_for_channel)
         return NotificationCompat.Builder(context, channelId).apply {
             setSmallIcon(R.drawable.icon_birthday)
-            setContentTitle(context.getString(R.string.today_is_the_birthday, contactName))
+            setContentTitle(context.getString(R.string.today_is_the_birthday, contact.name))
             setContentText(context.getString(R.string.not_forget_to_congratulate))
             setAutoCancel(true)
             priority = NotificationCompat.PRIORITY_DEFAULT
@@ -57,7 +58,7 @@ object NotificationHelper {
             setLargeIcon(BitmapFactory.decodeResource(context.resources, largeIcon))
             val intent = Intent(context, MainActivity::class.java).apply {
                 putExtra("FRAGMENT_NAME", "SOME_FRAGMENT")
-                putExtra("CONTACT_ID", id)
+                putExtra("CONTACT", contact)
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 action = Intent.ACTION_MAIN
                 addCategory(Intent.CATEGORY_LAUNCHER)
@@ -65,7 +66,7 @@ object NotificationHelper {
 
             val pendingIntent = PendingIntent.getActivity(
                 context,
-                id,
+                contact.id,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
@@ -73,10 +74,10 @@ object NotificationHelper {
         }
     }
 
-    fun createNotificationForBirthday(context: Context, contactId: Int, contactName: String) {
-        val notificationBuilder = buildNotification(context, contactName, contactId)
+    fun createNotificationForBirthday(context: Context, contact:Contact) {
+        val notificationBuilder = buildNotification(context, contact)
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(contactId, notificationBuilder.build())
-        Log.d("AlarmBirthdayReceiver", contactId.toString() + contactName)
+        notificationManager.notify(contact.id, notificationBuilder.build())
+        Log.d("AlarmBirthdayReceiver", contact.id.toString() + contact.name)
     }
 }

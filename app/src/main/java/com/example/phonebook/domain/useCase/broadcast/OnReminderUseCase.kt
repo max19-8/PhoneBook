@@ -4,5 +4,5 @@ import com.example.phonebook.data.Contact
 
 class OnReminderUseCase(private val repository: BroadcastRepository) {
 
-    operator fun invoke(id: Int, contact: Contact) = repository.onReminder(id, contact)
+    operator fun invoke(contact: Contact) = repository.onReminder(contact)
 }
