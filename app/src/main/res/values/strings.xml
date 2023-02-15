@@ -26,14 +26,14 @@
     <string name="reminder_birthday_text">Напоминание о дне рождения</string>
     <string name="change_date_birthday">изменить дату</string>
     <string name="description_text">description</string>
-    <string name="email2_text">email2</string>
-    <string name="email1_text">email1</string>
-    <string name="mobile2_text">mobile2</string>
-    <string name="mobile1_text">mobile1</string>
+    <string name="email_text">email</string>
+    <string name="mobile_text">mobile</string>
     <string name="description_user_avatar_details_screen">User Avatar from Detail Screen</string>
     <string name="permission_information_text">Для корректной работы приложения требуется доступ к контактам.\nВы сможете отозвать доступ через меню настроек в любой момент.</string>
     <string name="allow_contacts_title">Разрешить доступ к контактам?</string>
     <string name="permission_contacts_button_text">Разрешить</string>
     <string name="snack_bar_get_permission_text">Приложению необходим доступ к телефонной книге</string>
     <string name="another_time_text">Не сейчас</string>
+    <string name="call_text">Позвонить</string>
+    <string name="call_the_phone_button_description">call the phone button</string>
 </resources>
