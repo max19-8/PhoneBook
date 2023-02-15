@@ -14,4 +14,7 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="big_text_app">24sp</dimen>
     <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="top_margin_image">18dp</dimen>
+    <dimen name="middle_margin">8dp</dimen>
+    <dimen name="middle_text_size">16sp</dimen>
 </resources>

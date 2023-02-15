@@ -2,15 +2,10 @@ package com.example.phonebook.data.localDataSource
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
-import android.os.Build
 import android.provider.ContactsContract
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.phonebook.data.Contact
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -39,28 +34,6 @@ class ContactProvider(private val contentResolver: ContentResolver) {
         Log.d("getContactListData", listContacts.toString())
         return listContacts
     }
-
-    fun getDetailContact(id:Int):  List<Contact> {
-        val listContacts = mutableListOf<Contact>()
-        contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, SELECTION_CONTACTS,  arrayOf(id.toString()), null)
-            .use { cursor ->
-                if (cursor != null) {
-                    while (cursor.moveToNext()) {
-                        val name =
-                            cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Profile.DISPLAY_NAME))
-                        val number = getContactNumbers(id.toString())
-                        val email = getContactEmail(id.toString())
-                        val birthdayString = getBirthday(id.toString())
-                        val birthday = birthdayFormatter(birthdayString)
-                              listContacts.add(Contact(id = id, name = name, number = number[0],email = email, birthday = birthday))
-                    }
-                }
-            }
-
-        Log.d("getDetailContact", listContacts.toString())
-        return listContacts
-    }
-
     private fun getContactNumbers(id: String): Array<String> {
         val numbers = arrayOf("-", "-")
         val phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
@@ -88,7 +61,7 @@ class ContactProvider(private val contentResolver: ContentResolver) {
     }
 
     private fun getContactEmail(id: String): String {
-        var email = "-"
+        var email = ""
         val emailUri = ContactsContract.CommonDataKinds.Email.CONTENT_URI
         contentResolver.query(
             emailUri,
@@ -150,8 +123,6 @@ class ContactProvider(private val contentResolver: ContentResolver) {
                     " = '" + ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE + "' AND " +
                     ContactsContract.CommonDataKinds.Event.TYPE + " = " +
                     ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY
-        private const val SELECTION_CONTACTS = ContactsContract.Contacts._ID + " =?"
-
         private const val DATE_PATTERN = "yyyy-MM-dd"
     }
 }

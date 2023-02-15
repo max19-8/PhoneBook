@@ -16,8 +16,6 @@ object BirthdayAlarmManger {
 
         val date = putNextBirthday(contactBirthday, Calendar.getInstance()).timeInMillis
 
-        Log.d("createAlarmFromBirthday", date.toString())
-
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 
         alarmManager?.setExact(AlarmManager.RTC_WAKEUP, date, pendingIntent)

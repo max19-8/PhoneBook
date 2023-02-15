@@ -16,7 +16,7 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listImageContact"
+                android:id="@+id/list_image_contact"
                 android:layout_width = "76dp"
                 android:layout_height = "76dp"
                 android:contentDescription="@string/user_avatar_description"
@@ -34,10 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/app_margin"
-            android:layout_toEndOf="@id/listImageContact"
+            android:layout_toEndOf="@id/list_image_contact"
             android:textColor="@color/brown"
             android:textSize="@dimen/tv_contact_name_list_size"
-            app:layout_constraintStart_toEndOf="@id/listImageContact"
+            app:layout_constraintStart_toEndOf="@id/list_image_contact"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -47,10 +47,10 @@
             android:layout_below="@+id/listTextViewContact"
             android:layout_marginStart="@dimen/app_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:layout_toEndOf="@id/listImageContact"
+            android:layout_toEndOf="@id/list_image_contact"
             android:textColor="@color/brown"
             android:textSize="@dimen/tv_contact_number_list_size"
-            app:layout_constraintStart_toEndOf="@id/listImageContact"
+            app:layout_constraintStart_toEndOf="@id/list_image_contact"
             app:layout_constraintTop_toBottomOf="@id/listTextViewContact" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
