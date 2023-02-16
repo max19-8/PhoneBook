@@ -1,29 +1,32 @@
-package com.example.phonebook.presentation
+package com.example.phonebook.presentation.contactListScreen
 
 import android.Manifest
-import android.R.attr.button
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import com.example.phonebook.R
+import com.example.phonebook.data.Contact
 import com.example.phonebook.data.NotificationSwitcher
 import com.example.phonebook.data.localDataSource.ContactProvider
 import com.example.phonebook.data.repository.ContactsRepository
 import com.example.phonebook.databinding.FragmentContactListBinding
 import com.example.phonebook.domain.useCase.listContact.ListContactUseCase
+import com.example.phonebook.presentation.base.BaseFragment
+import com.example.phonebook.presentation.ObtainingPermissionFragment
+import com.example.phonebook.presentation.contactListScreen.adapter.ContactClickListener
+import com.example.phonebook.presentation.contactListScreen.adapter.ContactsAdapter
 
-
-class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
+class ContactListFragment : BaseFragment<FragmentContactListBinding>(), ContactClickListener {
     override fun getViewBinding(): FragmentContactListBinding =
         FragmentContactListBinding.inflate(layoutInflater)
+
 
     private val readContactsPermission by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             when {
                 granted -> {
-                   observeViewModel()
+                    observeViewModel()
                 }
                 ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
@@ -44,7 +47,8 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
             ListContactUseCase(
                 ContactsRepository(
                     ContactProvider(requireContext().contentResolver),
-                    NotificationSwitcher(requireActivity().applicationContext))
+                    NotificationSwitcher(requireActivity().applicationContext)
+                )
             )
         )
 
@@ -53,13 +57,17 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestPermission()
-        binding.contactItem.item.setOnClickListener {
-            navigate(
-                ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(
-                    contactListViewModel.contactList.value!!.last()
-                )
-            )
+        val contactsAdapter = ContactsAdapter(this)
+        binding.contactsRecyclerView.adapter = contactsAdapter
+        contactListViewModel.contactList.observe(viewLifecycleOwner) { contacts ->
+            contactsAdapter.submitList(contacts)
         }
+    }
+
+    override fun onContactClick(contact: Contact) {
+        navigate(
+            ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(contact)
+        )
     }
 
     fun requestPermission() {
@@ -68,28 +76,8 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>() {
 
     private fun observeViewModel() {
         contactListViewModel.contactList.observe(viewLifecycleOwner) {
-            activity?.runOnUiThread {
-                val tvName = binding.contactItem.listTextViewContact
-                val tvPhoneNumber = binding.contactItem.listTextViewNumber
-                val image = binding.contactItem.listImageContact
-                tvName.text = it.last().name
-                tvPhoneNumber.text = it.last().number
-                    createImage(it.last().name,image)
-            }
+
         }
-    }
-   private fun createImage(name:String,button: Button) {
-        val strArray = name.split(" ").toTypedArray()
-        val builder = StringBuilder()
-//First name
-        if (strArray.isNotEmpty()) {
-            builder.append(strArray[0], 0, 1)
-        }
-        //Middle name
-        if (strArray.size > 1) {
-            builder.append(strArray[1], 0, 1)
-        }
-        button.text = builder.toString()
     }
 
     private fun showPermissionDialog() {

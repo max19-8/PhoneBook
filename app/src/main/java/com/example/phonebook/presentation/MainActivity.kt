@@ -1,8 +1,7 @@
-package com.example.phonebook
+package com.example.phonebook.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
@@ -10,11 +9,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.phonebook.R
 import com.example.phonebook.data.Contact
 import com.example.phonebook.databinding.ActivityMainBinding
-import com.example.phonebook.presentation.ContactListFragment
-import com.example.phonebook.presentation.ContactListFragmentDirections
-import com.example.phonebook.presentation.RequestContactsPermission
+import com.example.phonebook.presentation.contactListScreen.ContactListFragment
+import com.example.phonebook.presentation.contactListScreen.ContactListFragmentDirections
+import com.example.phonebook.presentation.contactListScreen.RequestContactsPermission
 
 
 class MainActivity : AppCompatActivity(), RequestContactsPermission {
@@ -51,19 +51,18 @@ class MainActivity : AppCompatActivity(), RequestContactsPermission {
     }
 
     private fun getIntentFromNotification(intent: Intent?) {
-        val contact = intent?.getParcelableExtra<Contact>("CONTACT")
+        val contact = intent?.getParcelableExtra<Contact>(CONTACT)
         val navController = navHostFragment.navController
-        val frag = intent?.getStringExtra("FRAGMENT_NAME")
+        val frag = intent?.getStringExtra(FRAGMENT_NAME)
         if (contact !=null){
             frag?.let {
                 when (frag) {
-                    "SOME_FRAGMENT" -> {
-                        Log.d("SOME_FRAGMENT", "FRAGMENT_NAME")
+                    SOME_FRAGMENT -> {
                         navController.navigate(
                             ContactListFragmentDirections.actionContactListFragmentToDetailContactFragment(contact)
                         )
                     }
-                    else -> throw RuntimeException("Unknown fragment")
+                    else -> throw RuntimeException(UNKNOWN_FRAGMENT)
                 }
             }
         }
@@ -82,5 +81,11 @@ class MainActivity : AppCompatActivity(), RequestContactsPermission {
         return if (fragment is ContactListFragment) {
             fragment
         } else null
+    }
+    companion object{
+        private const val SOME_FRAGMENT = "SOME_FRAGMENT"
+        private const val FRAGMENT_NAME = "FRAGMENT_NAME"
+        private const val UNKNOWN_FRAGMENT = "Unknown fragment"
+        private const val CONTACT = "contact"
     }
 }

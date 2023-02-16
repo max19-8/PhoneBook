@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.phonebook.R
 import com.example.phonebook.databinding.FragmentObtainingPermissionsBinding
+import com.example.phonebook.presentation.contactListScreen.RequestContactsPermission
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ObtainingPermissionFragment : BottomSheetDialogFragment() {
