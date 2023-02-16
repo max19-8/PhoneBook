@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/contactListFragment"
-        android:name="com.example.phonebook.presentation.ContactListFragment"
+        android:name="com.example.phonebook.presentation.contactListScreen.ContactListFragment"
         android:label="Список контактов"
         tools:layout="@layout/fragment_contact_list" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailContactFragment"
-        android:name="com.example.phonebook.presentation.DetailContactFragment"
+        android:name="com.example.phonebook.presentation.detailContactScreen.DetailContactFragment"
         android:label="Детали контакта"
         tools:layout="@layout/fragment_detail_contact" >
         <argument

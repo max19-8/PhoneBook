@@ -6,7 +6,6 @@ import com.example.phonebook.data.notification.NotificationHelper
 
 
 class App : Application() {
-
     override fun onCreate() {
         super.onCreate()
         NotificationHelper.createNotificationChannel(
