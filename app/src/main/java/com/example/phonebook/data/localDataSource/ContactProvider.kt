@@ -3,7 +3,6 @@ package com.example.phonebook.data.localDataSource
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.provider.ContactsContract
-import android.util.Log
 import com.example.phonebook.data.Contact
 import java.text.SimpleDateFormat
 import java.util.*
@@ -12,7 +11,7 @@ import java.util.*
 class ContactProvider(private val contentResolver: ContentResolver) {
     fun getContactListData(query:String): List<Contact> {
         val listContacts = mutableListOf<Contact>()
-        contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
+        contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, "upper(" + ContactsContract.Profile.DISPLAY_NAME + ") ASC")
             .use { cursor ->
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
@@ -20,6 +19,7 @@ class ContactProvider(private val contentResolver: ContentResolver) {
                             cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.Profile._ID))
                         val name =
                             cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Profile.DISPLAY_NAME))
+
                         val number = getContactNumbers(id.toString())
                         val email = getContactEmail(id.toString())
                         val birthdayString = getBirthday(id.toString())
@@ -31,7 +31,6 @@ class ContactProvider(private val contentResolver: ContentResolver) {
                     }
                 }
             }
-        Log.d("getContactListData", listContacts.toString())
         return listContacts
     }
     private fun getContactNumbers(id: String): Array<String> {

@@ -19,7 +19,7 @@
             android:name=".data.notification.AlarmBirthdayReceiver"
             android:enabled="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Theme.TelephoneContact.SplashScreen"

@@ -8,14 +8,18 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.phonebook.MainActivity
+import com.example.phonebook.presentation.MainActivity
 import com.example.phonebook.R
 import com.example.phonebook.data.Contact
 object NotificationHelper {
+
+    private const val SOME_FRAGMENT = "SOME_FRAGMENT"
+    private const val FRAGMENT_NAME = "FRAGMENT_NAME"
+    private const val CONTACT = "contact"
+
     fun createNotificationChannel(
         context: Context,
         importance: Int,
@@ -53,8 +57,8 @@ object NotificationHelper {
             val largeIcon = R.drawable.birthday_image
             setLargeIcon(BitmapFactory.decodeResource(context.resources, largeIcon))
             val intent = Intent(context, MainActivity::class.java).apply {
-                putExtra("FRAGMENT_NAME", "SOME_FRAGMENT")
-                putExtra("CONTACT", contact)
+                putExtra(FRAGMENT_NAME, SOME_FRAGMENT)
+                putExtra(CONTACT, contact)
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 action = Intent.ACTION_MAIN
                 addCategory(Intent.CATEGORY_LAUNCHER)
@@ -75,5 +79,9 @@ object NotificationHelper {
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(contact.id, notificationBuilder.build())
     }
+
+
+
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.phonebook.presentation
+package com.example.phonebook.presentation.detailContactScreen
 
 import android.content.Context
 import com.example.phonebook.data.Contact

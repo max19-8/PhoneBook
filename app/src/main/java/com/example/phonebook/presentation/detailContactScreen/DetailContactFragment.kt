@@ -1,4 +1,4 @@
-package com.example.phonebook.presentation
+package com.example.phonebook.presentation.detailContactScreen
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,6 +18,7 @@ import com.example.phonebook.databinding.FragmentDetailContactBinding
 import com.example.phonebook.domain.useCase.broadcast.IsAlarmSetUseCase
 import com.example.phonebook.domain.useCase.broadcast.OffReminderUseCase
 import com.example.phonebook.domain.useCase.broadcast.OnReminderUseCase
+import com.example.phonebook.presentation.base.BaseFragment
 import java.text.SimpleDateFormat
 import java.util.*
 

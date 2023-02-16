@@ -1,4 +1,4 @@
-package com.example.phonebook.presentation
+package com.example.phonebook.presentation.contactListScreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
