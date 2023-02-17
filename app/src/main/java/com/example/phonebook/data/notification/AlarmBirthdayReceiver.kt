@@ -6,15 +6,16 @@ import android.content.Context
 import android.content.Intent
 import com.example.phonebook.data.Contact
 import java.util.*
+import javax.inject.Inject
 
-class AlarmBirthdayReceiver : BroadcastReceiver() {
+class  AlarmBirthdayReceiver @Inject constructor(private val alarmManager:BirthdayAlarmManger): BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val contact = intent.getParcelableExtra<Contact>(CONTACT)
         if (contact !=null){
             val contactId = contact.id
             val date = contact.birthday as Calendar
 
-            NotificationHelper.createNotificationForBirthday(context,contact)
+            NotificationHelper().createNotificationForBirthday(context,contact)
 
             val alarmIntent =
                 PendingIntent.getBroadcast(
@@ -24,7 +25,7 @@ class AlarmBirthdayReceiver : BroadcastReceiver() {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
-            BirthdayAlarmManger.createAlarmFromBirthday(context, date, alarmIntent)
+            alarmManager.createAlarmFromBirthday(context, date, alarmIntent)
         }
     }
 

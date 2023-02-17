@@ -1,6 +1,7 @@
 package com.example.phonebook.presentation.detailContactScreen
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,7 +10,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.CompoundButton
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.example.phonebook.App
 import com.example.phonebook.R
 import com.example.phonebook.data.NotificationSwitcher
 import com.example.phonebook.data.localDataSource.ContactProvider
@@ -19,28 +22,25 @@ import com.example.phonebook.domain.useCase.broadcast.IsAlarmSetUseCase
 import com.example.phonebook.domain.useCase.broadcast.OffReminderUseCase
 import com.example.phonebook.domain.useCase.broadcast.OnReminderUseCase
 import com.example.phonebook.presentation.base.BaseFragment
+import com.example.phonebook.presentation.base.ViewModelFactory
+import com.example.phonebook.presentation.contactListScreen.ContactListViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-
+import javax.inject.Inject
 
 class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     CompoundButton.OnCheckedChangeListener {
 
-
-    private val repository by lazy {
-        ContactsRepository(
-            ContactProvider(requireContext().contentResolver),
-            NotificationSwitcher(requireActivity().applicationContext)
-        )
-    }
-    private val contactDetailsViewModel by lazy {
-        ContactDetailsViewModel(
-            OnReminderUseCase(repository),
-            OffReminderUseCase(repository),
-            IsAlarmSetUseCase(repository)
-        )
+    private val  component by lazy {
+        (requireActivity().application as App).component
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory)[ContactDetailsViewModel::class.java]
+    }
     private val args: DetailContactFragmentArgs by navArgs()
 
     private var switchAlarm: SwitchCompat? = null
@@ -48,6 +48,11 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
 
     override fun getViewBinding(): FragmentDetailContactBinding =
         FragmentDetailContactBinding.inflate(layoutInflater)
+
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,7 +62,7 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        contactDetailsViewModel.changeNotifyStatus(isChecked, args.contact)
+        viewModel.changeNotifyStatus(isChecked, args.contact)
     }
 
     override fun onDestroyView() {
@@ -67,12 +72,11 @@ class DetailContactFragment : BaseFragment<FragmentDetailContactBinding>(),
 
     private fun observeViewModel() {
         val isAlarmSet =
-            contactDetailsViewModel.isAlarmSet(requireActivity().applicationContext, args.contact)
+            viewModel.isAlarmSet(requireActivity().applicationContext, args.contact)
         binding.detailName.text = args.contact.name
         binding.detailNumber.text = args.contact.number
         createImage(args.contact.name, binding.detailImageContact)
         val calendar = args.contact.birthday
-        Log.d("observeViewModel", calendar.toString())
         if (calendar != null) {
             val dateBirthday =
                 (context?.getString(R.string.date_of_birth, calendarToStringDate(calendar)))

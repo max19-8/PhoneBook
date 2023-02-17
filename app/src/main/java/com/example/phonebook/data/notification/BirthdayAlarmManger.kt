@@ -5,8 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.util.Log
 import java.util.*
+import javax.inject.Inject
 
-object BirthdayAlarmManger {
+class BirthdayAlarmManger @Inject constructor() {
 
     fun createAlarmFromBirthday(
         context: Context,

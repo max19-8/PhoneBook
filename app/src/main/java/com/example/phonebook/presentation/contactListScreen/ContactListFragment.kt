@@ -1,10 +1,14 @@
 package com.example.phonebook.presentation.contactListScreen
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.phonebook.App
 import com.example.phonebook.R
 import com.example.phonebook.data.Contact
 import com.example.phonebook.data.NotificationSwitcher
@@ -14,13 +18,25 @@ import com.example.phonebook.databinding.FragmentContactListBinding
 import com.example.phonebook.domain.useCase.listContact.ListContactUseCase
 import com.example.phonebook.presentation.base.BaseFragment
 import com.example.phonebook.presentation.ObtainingPermissionFragment
+import com.example.phonebook.presentation.base.ViewModelFactory
 import com.example.phonebook.presentation.contactListScreen.adapter.ContactClickListener
 import com.example.phonebook.presentation.contactListScreen.adapter.ContactsAdapter
+import javax.inject.Inject
 
 class ContactListFragment : BaseFragment<FragmentContactListBinding>(), ContactClickListener {
     override fun getViewBinding(): FragmentContactListBinding =
         FragmentContactListBinding.inflate(layoutInflater)
 
+    private val  component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory)[ContactListViewModel::class.java]
+    }
 
     private val readContactsPermission by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -40,18 +56,9 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>(), ContactC
             }
         }
     }
-
-
-    private val contactListViewModel by lazy {
-        ContactListViewModel(
-            ListContactUseCase(
-                ContactsRepository(
-                    ContactProvider(requireContext().contentResolver),
-                    NotificationSwitcher(requireActivity().applicationContext)
-                )
-            )
-        )
-
+    override fun onAttach(context: Context) {
+        component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +66,7 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>(), ContactC
         requestPermission()
         val contactsAdapter = ContactsAdapter(this)
         binding.contactsRecyclerView.adapter = contactsAdapter
-        contactListViewModel.contactList.observe(viewLifecycleOwner) { contacts ->
+        viewModel.contactList.observe(viewLifecycleOwner) { contacts ->
             contactsAdapter.submitList(contacts)
         }
     }
@@ -75,7 +82,7 @@ class ContactListFragment : BaseFragment<FragmentContactListBinding>(), ContactC
     }
 
     private fun observeViewModel() {
-        contactListViewModel.contactList.observe(viewLifecycleOwner) {
+        viewModel.contactList.observe(viewLifecycleOwner) {
 
         }
     }
