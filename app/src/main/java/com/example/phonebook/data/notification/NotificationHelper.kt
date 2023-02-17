@@ -14,11 +14,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.phonebook.presentation.MainActivity
 import com.example.phonebook.R
 import com.example.phonebook.data.Contact
-object NotificationHelper {
+import javax.inject.Inject
 
-    private const val SOME_FRAGMENT = "SOME_FRAGMENT"
-    private const val FRAGMENT_NAME = "FRAGMENT_NAME"
-    private const val CONTACT = "contact"
+class NotificationHelper @Inject constructor() {
 
     fun createNotificationChannel(
         context: Context,
@@ -78,6 +76,14 @@ object NotificationHelper {
         val notificationBuilder = buildNotification(context, contact)
         val notificationManager = NotificationManagerCompat.from(context)
         notificationManager.notify(contact.id, notificationBuilder.build())
+    }
+
+
+    companion object{
+        private const val SOME_FRAGMENT = "SOME_FRAGMENT"
+        private const val FRAGMENT_NAME = "FRAGMENT_NAME"
+        private const val CONTACT = "contact"
+
     }
 
 

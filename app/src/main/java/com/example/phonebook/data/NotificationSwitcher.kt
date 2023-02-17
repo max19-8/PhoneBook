@@ -8,10 +8,9 @@ import android.util.Log
 import com.example.phonebook.data.notification.AlarmBirthdayReceiver
 import com.example.phonebook.data.notification.BirthdayAlarmManger
 import com.example.phonebook.domain.useCase.broadcast.BroadcastRepository
+import javax.inject.Inject
 
-
-class NotificationSwitcher(private val context: Context) : BroadcastRepository {
-
+class NotificationSwitcher  @Inject constructor (private val context: Context) : BroadcastRepository {
 
     override fun offReminder(contact: Contact) {
         val intent = AlarmBirthdayReceiver.newIntent(context)
@@ -40,13 +39,11 @@ class NotificationSwitcher(private val context: Context) : BroadcastRepository {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             contact.birthday?.let {
-                BirthdayAlarmManger.createAlarmFromBirthday(context,
+                BirthdayAlarmManger().createAlarmFromBirthday(context,
                     it, alarmIntent)
             }
-            Log.d("onReminder",contact.birthday.toString())
         }
     }
-
     override fun isAlarmSet(context: Context, contact: Contact): Boolean {
         val intent = AlarmBirthdayReceiver.newIntent(context)
         val alarmIntent = createPendingIntent(
@@ -54,7 +51,6 @@ class NotificationSwitcher(private val context: Context) : BroadcastRepository {
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
         )
-
         return alarmIntent != null
     }
 
@@ -65,8 +61,6 @@ class NotificationSwitcher(private val context: Context) : BroadcastRepository {
             intent,
             flag
         )
-
-
     companion object {
         private const val CONTACT = "contact"
     }

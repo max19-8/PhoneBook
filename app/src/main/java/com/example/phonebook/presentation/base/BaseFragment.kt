@@ -18,6 +18,7 @@ abstract class BaseFragment<viewBinding : ViewBinding> : Fragment() {
     val binding: viewBinding get() = _binding!!
     protected abstract fun getViewBinding(): viewBinding
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

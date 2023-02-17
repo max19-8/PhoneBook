@@ -3,12 +3,13 @@ package com.example.phonebook.data.localDataSource
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.provider.ContactsContract
+import android.util.Log
 import com.example.phonebook.data.Contact
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-
-class ContactProvider(private val contentResolver: ContentResolver) {
+class ContactProvider @Inject constructor(private val contentResolver: ContentResolver) {
     fun getContactListData(query:String): List<Contact> {
         val listContacts = mutableListOf<Contact>()
         contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, "upper(" + ContactsContract.Profile.DISPLAY_NAME + ") ASC")
