@@ -38,7 +38,7 @@
 
 ТУТ ЕЩЕ НАДО УКАЗАТЬ ЧТО СЛЕДУЕТ СКАЧАТЬ СЕБЕ ПРИЛОЖЕНИЕ СНАЧАЛА
 
-1. Указать `consoleApplicationId` и `deeplinkScheme` своего приложения в RuStoreBillingClientFactory.create():
+1. Указать `consoleApplicationId` и `deeplinkScheme` своего приложения в `RuStoreBillingClientFactory.create()`:
 ```
 val billingClient = RuStoreBillingClientFactory.create(
 context = context,
