@@ -1,3 +1,7 @@
+# Пример внедрения SDK платежей RuStore
+## [Документация SDK платежей](https://help.rustore.ru/rustore/for_developers/developer-documentation/sdk_payments/SDK-connecting-payments/quick_start)
+
+
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>ОГЛАВЛЕНИЕ</summary>
