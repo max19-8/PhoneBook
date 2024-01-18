@@ -39,6 +39,25 @@
 ## Настройка примера приложения
 Для проверки работы приложения вы можете воспользоваться функционалом [тестовых платежей](https://www.rustore.ru/help/developers/monetization/sandbox).
 
+1. Указать consoleApplicationId и deeplinkScheme своего приложения в RuStoreBillingClientFactory.create():
+```
+val billingClient = RuStoreBillingClientFactory.create(
+context = context,
+consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
+deeplinkScheme = "yourappscheme", // Укажите URL-адрес для использования deeplink. В качестве названия может быть использовано любое уникальное имя. Должен совпадать с <data android:scheme="" />
+)
+```
+2. В файле "AndroidManifest.xml” в параметре “data android:scheme” укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 2)
+3. В "BillingExampleViewModel" в переменной “availableProductIds” перечислите подписки и разовые покупки доступные в вашем приложении:
+```
+private val availableProductIds = listOf(
+        "productId1",
+        "productId2",
+        "productId3"
+      )
+```
+4. В папку "cert" замените сертификат("release.keystore") - сертификатом своего приложения, так же в  ("release.properties") выполните настройку параметров “key_alias”, “key_password”, “store_password”.
+5. Запустите проект и проверьте работу приложения
 
 
 
