@@ -41,6 +41,8 @@ consoleApplicationId = "111111", // Заменить на свой id (https://c
 deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес для использования deeplink. Должен совпадать с <data android:scheme="" />
 )
 ```
+---
+
 - В файле `AndroidManifest.xml` в параметре `data android:scheme` укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 1)
 ```
 <intent-filter>
@@ -48,6 +50,8 @@ deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес д�
                 <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
             </intent-filter>
 ```
+___
+
 - В `BillingExampleViewModel` в переменной `availableProductIds` перечислите [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении:
 ```
 
