@@ -33,7 +33,7 @@ android {
 ###  Настройка примера приложения
 Для проверки работы приложения вы можете воспользоваться функционалом [тестовых платежей](https://www.rustore.ru/help/developers/monetization/sandbox).
 
-1. Указать `consoleApplicationId` и `deeplinkScheme` своего приложения в `RuStoreBillingClientFactory.create()`:
+- Указать `consoleApplicationId` и `deeplinkScheme` своего приложения в `RuStoreBillingClientFactory.create()`:
 ```
 val billingClient = RuStoreBillingClientFactory.create(
 context = context,
@@ -41,23 +41,26 @@ consoleApplicationId = "111111", // Заменить на свой id (https://c
 deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес для использования deeplink. Должен совпадать с <data android:scheme="" />
 )
 ```
-2. В файле `AndroidManifest.xml` в параметре `data android:scheme` укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 1)
+- В файле `AndroidManifest.xml` в параметре `data android:scheme` укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 1)
 ```
 <intent-filter>
    <action android:name="android.intent.action.VIEW" />
                 <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
             </intent-filter>
 ```
-3. В `BillingExampleViewModel` в переменной `availableProductIds` перечислите [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении:
+- В `BillingExampleViewModel` в переменной `availableProductIds` перечислите [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении:
 ```
+
 private val availableProductIds = listOf(
         "productId1",
         "productId2",
         "productId3"
       )
 ```
-4. В директории `cert` замените сертификат `release.keystore` - сертификатом своего приложения, так же в `release.properties` выполните настройку параметров `key_alias`, `key_password`, `store_password`.
-5. Замените applicationId, в файле build.gradle, на applicationId apk-файла, который вы публиковали в консоль RuStore:
+
+- В директории `cert` замените сертификат `release.keystore` - сертификатом своего приложения, так же в `release.properties` выполните настройку параметров `key_alias`, `key_password`, `store_password`.
+
+- Замените applicationId, в файле build.gradle, на applicationId apk-файла, который вы публиковали в консоль RuStore:
 ```
 android {
     defaultConfig {
@@ -65,7 +68,8 @@ android {
     }
 }
 ```
-6. Запустите проект и проверьте работу приложения
+
+- Запустите проект и проверьте работу приложения
 
 ## Требуемые условия для корректного запуска примера
 
