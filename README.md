@@ -55,7 +55,7 @@ deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес д�
 
 
 - В `BillingExampleViewModel` в переменной `availableProductIds` перечислите [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении:
-```
+```kotlin
 private val availableProductIds = listOf(
         "productId1",
         "productId2",
