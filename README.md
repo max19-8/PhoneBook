@@ -22,7 +22,7 @@
 1. `consoleApplicationId` - код приложения из консоли разработчика RuStore (пример: https://console.rustore.ru/apps/123456), тут `consoleApplicationId` = 123456
 2. `deeplinkScheme` - cхема deeplink, необходимая для возврата в ваше приложение после оплаты через стороннее приложение (например, SberPay или СБП). SDK генерирует свой хост к данной схеме. Важно, чтобы схема deeplink, передаваемая в deeplinkScheme, совпадала со схемой, указанной в AndroidManifest.xml в разделе “Обработка deeplink”.
 3. `applicationId` -  из apk-файла, который вы публиковали в консоль RuStore, находится в файле build.gradle вашего проекта
-```
+``` kotlin
 android {
    defaultConfig {
    applicationId = "ru.rustore.sdk.billingexample" // 
@@ -45,7 +45,7 @@ deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес д�
 
 
 - В файле `AndroidManifest.xml` в параметре `data android:scheme` укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 1)
-```
+``` kotlin
 <intent-filter>
    <action android:name="android.intent.action.VIEW" />
                 <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
@@ -70,7 +70,7 @@ private val availableProductIds = listOf(
 
 ---
 - Замените applicationId, в файле build.gradle, на applicationId apk-файла, который вы публиковали в консоль RuStore:
-```
+``` kotlin
 android {
     defaultConfig {
         applicationId = "ru.rustore.sdk.billingexample" // Зачастую в buildTypes приписывается .debug
@@ -86,7 +86,7 @@ android {
 
 Для корректной работы SDK необходимо соблюдать следующие условия:
 - Задан правильно `consoleApplicationId` в create():
-```
+``` kotlin
 val billingClient = RuStoreBillingClientFactory.create(
     context = context,
     consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
@@ -94,7 +94,7 @@ val billingClient = RuStoreBillingClientFactory.create(
 )
 ```
 - `applicationId`, указанный в `build.gradle`, совпадает с `applicationId` apk-файла, который вы публиковали в консоль RuStore:
-```
+``` kotlin
 android {
     defaultConfig {
         applicationId = "ru.rustore.sdk.billingexample" // Зачастую в buildTypes приписывается .debug
