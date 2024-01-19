@@ -43,6 +43,7 @@ deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес д�
 ```
 ---
 
+
 - В файле `AndroidManifest.xml` в параметре `data android:scheme` укажите URL-адрес для использования deeplink (должен совпадать с параметром deeplinkScheme из пункта 1)
 ```
 <intent-filter>
@@ -50,20 +51,24 @@ deeplinkScheme = "rustoresdkexamplescheme", // Укажите URL-адрес д�
                 <data android:scheme="rustoresdkexamplescheme" /> // Заменить на свой deeplink
             </intent-filter>
 ```
-___
+---
+
 
 - В `BillingExampleViewModel` в переменной `availableProductIds` перечислите [подписки](https://www.rustore.ru/help/developers/monetization/create-app-subscription/) и [разовые покупки](https://www.rustore.ru/help/developers/monetization/create-paid-product-in-application/) доступные в вашем приложении:
 ```
-
 private val availableProductIds = listOf(
         "productId1",
         "productId2",
         "productId3"
       )
 ```
+---
+
 
 - В директории `cert` замените сертификат `release.keystore` - сертификатом своего приложения, так же в `release.properties` выполните настройку параметров `key_alias`, `key_password`, `store_password`.
 
+
+---
 - Замените applicationId, в файле build.gradle, на applicationId apk-файла, который вы публиковали в консоль RuStore:
 ```
 android {
@@ -72,6 +77,8 @@ android {
     }
 }
 ```
+---
+
 
 - Запустите проект и проверьте работу приложения
 
