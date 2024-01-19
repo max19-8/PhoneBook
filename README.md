@@ -11,6 +11,7 @@
       <ul>
         <li><a href="#получение-необходимой-конфигурации">Получение необходимой конфигурации</a></li>
         <li><a href="#настройка-примера-приложения">Настройка примера приложения</a></li>
+        <li><a href="#требуемые-условия-для-корректного-запуска-примера">Требуемые условия для корректного запуска примера</a></li>
       </ul>
     </li>
     <li><a href="#лицензия">Лицензия</a></li>
@@ -27,15 +28,15 @@
 ### Получение необходимой конфигурации
 Для корректной настройки примера приложения вам следует подготовить:
 
-1. consoleApplicationId - код приложения из консоли разработчика RuStore (пример: https://console.rustore.ru/apps/123456), тут consoleApplicationId = 123456
-2. deeplinkScheme - cхема deeplink, необходимая для возврата в ваше приложение после оплаты через стороннее приложение (например, SberPay или СБП). SDK генерирует свой хост к данной схеме. Важно, чтобы схема deeplink, передаваемая в deeplinkScheme, совпадала со схемой, указанной в AndroidManifest.xml в разделе “Обработка deeplink”.
-3. applicationId -  из apk-файла, который вы публиковали в консоль RuStore, находится в файле build.gradle вашего проекта
+1. `consoleApplicationId` - код приложения из консоли разработчика RuStore (пример: https://console.rustore.ru/apps/123456), тут `consoleApplicationId` = 123456
+2. `deeplinkScheme` - cхема deeplink, необходимая для возврата в ваше приложение после оплаты через стороннее приложение (например, SberPay или СБП). SDK генерирует свой хост к данной схеме. Важно, чтобы схема deeplink, передаваемая в deeplinkScheme, совпадала со схемой, указанной в AndroidManifest.xml в разделе “Обработка deeplink”.
+3. `applicationId` -  из apk-файла, который вы публиковали в консоль RuStore, находится в файле build.gradle вашего проекта
 ```
 android {
    defaultConfig {
    applicationId = "ru.rustore.sdk.billingexample" // 
    }
-   }
+}
 ```
 
 ###  Настройка примера приложения
@@ -76,6 +77,27 @@ android {
 }
 ```
 6. Запустите проект и проверьте работу приложения
+
+## Требуемые условия для корректного запуска примера
+
+Для корректной работы SDK необходимо соблюдать следующие условия:
+- Задан правильно `consoleApplicationId` в create():
+```
+val billingClient = RuStoreBillingClientFactory.create(
+    context = context,
+    consoleApplicationId = "111111", // Заменить на свой id (https://console.rustore.ru/apps/111111)
+    deeplinkScheme = "yourappscheme", // Должен совпадать с <data android:scheme="" />
+)
+```
+- `applicationId`, указанный в `build.gradle`, совпадает с `applicationId` apk-файла, который вы публиковали в консоль RuStore:
+```
+android {
+    defaultConfig {
+        applicationId = "ru.rustore.sdk.billingexample" // Зачастую в buildTypes приписывается .debug
+    }
+}
+```
+- Подпись `release.keystore` должна совпадать с подписью, которой было подписано приложение, опубликованное в консоль RuStore. Убедитесь, что используемый `buildType` (пр. debug) использует такую же подпись, что и опубликованное приложение (пр. release).
 
 ## Лицензия
 Распространяется по лицензии MIT. Дополнительную информацию смотреть в файле `MIT-LICENSE.txt`
